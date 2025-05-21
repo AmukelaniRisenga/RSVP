@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Vongi's Baby Shower RSVP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #fff0f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .invitation-heading {
+            font-size: 36px;
+            font-weight: bold;
+            color: #d6336c;
+            margin-top: 30px;
+        }
+
+        video.header-img {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .countdown {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d6336c;
+            margin: 20px 0;
+        }
+
+        form {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        input, button {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #ff66a5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e05591;
+        }
+
+        .message {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        iframe {
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 10px;
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Fireworks Animation -->
+<canvas class="fireworks"></canvas>
+
+<div class="container">
+    <div class="invitation-heading">🎀 Baby Shower Invitation 🎀</div>
+
+    <!-- 🔁 Video Instead of Image -->
+    <video class="header-img" controls autoplay muted loop>
+        <source src="0521.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="countdown" id="countdown"></div>
+
+    <!-- RSVP Form -->
+    <form method="post" action="submit_rsvp.php">
+        <h2>🎀 RSVP BEFORE THE 10 JULY🎀</h2>
+        <input type="text" name="name" placeholder="Your Full Name" required />
+        <input type="text" name="contact" placeholder="Your Contact Number" required />
+        <button type="submit" name="submit_rsvp">Submit RSVP</button>
+    </form>
+
+    <!-- Venue Location -->
+    <h2 style="margin-top: 40px; color: #d6336c;">📍 Venue Location</h2>
+    <iframe
+        src="https://www.google.com/maps?q=308+Boundary+Rd,+North+Riding+AH,+Randburg,+2169&output=embed"
+        width="100%"
+        height="450"
+        style="border:0; box-shadow: 0 0 12px rgba(0,0,0,0.2);"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+</div>
+
+<!-- Footer Tag -->
+<footer>Created by Amukelani Risenga</footer>
+
+<!-- Countdown Timer Script -->
+<script>
+    const eventDate = new Date("2025-07-20T23:00:00").getTime();
+    const countdownElement = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
+        const now = new Date().getTime();
+        const diff = eventDate - now;
+
+        if (diff < 0) {
+            clearInterval(timer);
+            countdownElement.innerHTML = "The Baby Shower has started!";
+        } else {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+            countdownElement.innerHTML = `Time until event: ${days}d ${hours}h ${mins}m ${secs}s`;
+        }
+    }, 1000);
+</script>
+
+<!-- Fireworks Script -->
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.10.3/dist/fireworks.js"></script>
+<script>
+    const container = document.querySelector('.fireworks');
+    const fireworks = new Fireworks.default(container, {
+        hue: { min: 0, max: 360 },
+        delay: { min: 15, max: 35 },
+        rocketsPoint: 50,
+        speed: 2,
+        acceleration: 1.05,
+        friction: 0.95,
+        gravity: 1.5,
+        particles: 120,
+        trace: 6,
+        explosion: 10,
+        boundaries: {
+            top: 0,
+            bottom: container.clientHeight,
+            left: 0,
+            right: container.clientWidth
+        },
+        sound: {
+            enabled: true,
+            files: ['https://fireworks.js.org/sounds/explosion0.mp3'],
+            volume: { min: 2, max: 4 }
+        }
+    });
+    fireworks.start();
+</script>
+
+<!-- Background Music -->
+<audio autoplay loop>
+    <source src="audio/mamahand.mp3" type="audio/mpeg" />
+</audio>
+
+</body>
+</html>
